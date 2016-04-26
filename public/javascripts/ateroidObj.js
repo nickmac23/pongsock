@@ -27,19 +27,18 @@ function Asteroids (width, height, size, pic, ship, bullets, breaker){
   this.draw = function () {
     this.x += this.vx;
     this.y += this.vy;
-    // this.bounce();
     this.wall();
   }
-  this.bounce = function () {
-    for (var i = 0; i < ships.length; i++) {
-      if (this.x <= ships[i].x  &&
-        this.x + this.width  > ships[i].x &&
-        this.y < ships[i].y  &&
-        this.height + this.y > ships[i].y) {
-          ships[i].val = false;
-    }
-  }
-}
+//   this.bounce = function () {
+//     for (var i = 0; i < ships.length; i++) {
+//       if (this.x <= ships[i].x  &&
+//         this.x + this.width  > ships[i].x &&
+//         this.y < ships[i].y  &&
+//         this.height + this.y > ships[i].y) {
+//           ships[i].val = false;
+//     }
+//   }
+// }
     // for (var i = 0; i < bullets.length; i++) {
     //   if (this.x < bullets[i].x  &&
     //     this.x + this.width  > bullets[i].x &&

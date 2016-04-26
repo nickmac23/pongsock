@@ -11,8 +11,8 @@ shipimg[0] = new Image();
   shipimg[0].src = '/images/flacon.png';
 // var astroidMed = new Image();
 //     astroidMed.src = 'pic/Astromedium.png'
-// var astroidBig = new Image();
-//   astroidBig.src = 'pic/Asteroid.png'
+var astroidBig = new Image();
+  astroidBig.src = '/images/Asteroid.png'
 // var astroidtinny = new Image();
 //   astroidtinny.src = 'pic/tinnya.png'
 
@@ -30,24 +30,25 @@ socket.on('self', function(playernum){
 })
 
 function move (ship) {
-  console.log(ship);
-  if(39 in keysDown ) {ship.rad += 6*(Math.PI/180)};
-  if(37 in keysDown) {ship.rad -= 6*(Math.PI/180)};
-  if(ship.rad === 360*(Math.PI/180) || ship.rad === -360*(Math.PI/180)){
-    ship.rad = 0;
-  }
-  if(38 in keysDown){
-    ship.vx += ship.thrust * Math.sin(ship.rad);
-    ship.vy += ship.thrust * Math.cos(ship.rad);
-  }if(40 in keysDown){
-    ship.vx -= ship.thrust * Math.sin(ship.rad);
-    ship.vy -= ship.thrust * Math.cos(ship.rad);
+  if (ship) {
+    if(39 in keysDown ) {ship.rad += 6*(Math.PI/180)};
+    if(37 in keysDown) {ship.rad -= 6*(Math.PI/180)};
+    if(ship.rad === 360*(Math.PI/180) || ship.rad === -360*(Math.PI/180)){
+      ship.rad = 0;
+    }
+    if(38 in keysDown){
+      ship.vx += ship.thrust * Math.sin(ship.rad);
+      ship.vy += ship.thrust * Math.cos(ship.rad);
+    }if(40 in keysDown){
+      ship.vx -= ship.thrust * Math.sin(ship.rad);
+      ship.vy -= ship.thrust * Math.cos(ship.rad);
+    }
   }
 }
 
 function shipsDraw (ships){
   for (var i = 0; i < ships.length; i++) {
-    if (ships[i]) {
+    if (!(ships[i] === false) ) {
       ships[i].img = shipimg[i];
       ctx.save();
       ctx.translate(ships[i].x, ships[i].y);
@@ -60,7 +61,7 @@ function shipsDraw (ships){
 }
 function roidsDraw (roids) {
   for (var i = 0; i < roids.length; i++) {
-    ctx.drawImage(shipimg[0], roids[i].x , roids[i].y )
+    ctx.drawImage(astroidBig, roids[i].x , roids[i].y )
   }
 }
 
