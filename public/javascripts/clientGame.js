@@ -16,6 +16,12 @@ var astroidBig = new Image();
 // var astroidtinny = new Image();
 //   astroidtinny.src = 'pic/tinnya.png'
 
+document.getElementById('start').addEventListener('click', function () {
+  socket.emit('start')
+})
+socket.on('self', function(playernum){
+  player = playernum;
+})
 
 var keysDown = {};
 addEventListener("keydown", function (e) {
@@ -25,9 +31,6 @@ addEventListener("keyup", function (e) {
   delete keysDown[e.keyCode];
 }, false);
 
-socket.on('self', function(playernum){
-  player = playernum;
-})
 
 function move (ship) {
   if (ship) {
@@ -49,11 +52,11 @@ function move (ship) {
 function shipsDraw (ships){
   for (var i = 0; i < ships.length; i++) {
     if (!(ships[i] === false) ) {
-      ships[i].img = shipimg[i];
+      ships[i].img = shipimg[0];
       ctx.save();
       ctx.translate(ships[i].x, ships[i].y);
       ctx.rotate(ships[i].rad);
-      ctx.drawImage(shipimg[i], -(ships[i].img.width/2), -(ships[i].img.height/2));
+      ctx.drawImage(shipimg[0], -(ships[i].img.width/2), -(ships[i].img.height/2));
       ctx.restore();
       ctx.save();
     }
@@ -61,7 +64,14 @@ function shipsDraw (ships){
 }
 function roidsDraw (roids) {
   for (var i = 0; i < roids.length; i++) {
-    ctx.drawImage(astroidBig, roids[i].x , roids[i].y )
+    ctx.save();
+    ctx.translate(roids[i].x, roids[i].y);
+    ctx.rotate(roids[i].rad);
+    ctx.drawImage(astroidBig, -(roids[i].width/2), -(roids[i].height/2));
+    ctx.restore();
+    ctx.save();
+
+    // ctx.drawImage(astroidBig, roids[i].x , roids[i].y )
   }
 }
 

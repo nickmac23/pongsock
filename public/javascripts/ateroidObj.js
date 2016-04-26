@@ -9,6 +9,7 @@ function Asteroids (width, height, size, pic, ship, bullets, breaker){
   this.val = true;
   this.width = width;
   this.height = height;
+  this.rad = 0;
   this.start = function (px, py) {
     var rx = Math.random() * (3 + 3) - 3;
     var ry = Math.random() * (3 + 3) - 3;
@@ -27,6 +28,7 @@ function Asteroids (width, height, size, pic, ship, bullets, breaker){
   this.draw = function () {
     this.x += this.vx;
     this.y += this.vy;
+    this.rad += .005;
     this.wall();
   }
 //   this.bounce = function () {
