@@ -13,8 +13,8 @@ shipimg[0] = new Image();
 //     astroidMed.src = 'pic/Astromedium.png'
 var astroidBig = new Image();
   astroidBig.src = '/images/Asteroid.png'
-// var astroidtinny = new Image();
-//   astroidtinny.src = 'pic/tinnya.png'
+var shot = new Image();
+  shot.src = '/images/Bluecenter.png'
 
 document.getElementById('start').addEventListener('click', function () {
   socket.emit('start')
@@ -24,6 +24,7 @@ socket.on('self', function(playernum){
 })
 
 var keysDown = {};
+var count = 0;
 addEventListener("keydown", function (e) {
   keysDown[e.keyCode] = true;
 }, false);
@@ -34,6 +35,10 @@ addEventListener("keyup", function (e) {
 
 function move (ship) {
   if (ship) {
+    if( 32 in keysDown){
+        socket.emit('fire', {x: ship.x, y:ship.y, angle: ship.rad})
+        delete keysDown[32]
+    }
     if(39 in keysDown ) {ship.rad += 6*(Math.PI/180)};
     if(37 in keysDown) {ship.rad -= 6*(Math.PI/180)};
     if(ship.rad === 360*(Math.PI/180) || ship.rad === -360*(Math.PI/180)){
@@ -49,6 +54,7 @@ function move (ship) {
   }
 }
 
+
 function shipsDraw (ships){
   for (var i = 0; i < ships.length; i++) {
     if (!(ships[i] === false) ) {
@@ -59,6 +65,13 @@ function shipsDraw (ships){
       ctx.drawImage(shipimg[0], -(ships[i].img.width/2), -(ships[i].img.height/2));
       ctx.restore();
       ctx.save();
+    }
+  }
+}
+function bulletDraw (bullets){
+  for (var i = 0; i < bullets.length; i++) {
+    if (!(bullets[i] === false) ) {
+      ctx.drawImage(shot, bullets[i].x - 25 , bullets[i].y - 10)
     }
   }
 }
@@ -77,10 +90,10 @@ function roidsDraw (roids) {
 
 socket.on('png', function(obj){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   move(obj.ships[player]);
   shipsDraw(obj.ships)
   roidsDraw(obj.roids)
+  bulletDraw(obj.bullets)
   socket.emit('update', {ship: obj.ships[player], player: player})
 })
 
